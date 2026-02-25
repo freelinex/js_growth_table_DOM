@@ -5,23 +5,33 @@ const removeRow = document.querySelector('.remove-row');
 const addColumn = document.querySelector('.append-column');
 const removeColumn = document.querySelector('.remove-column');
 const tableRow = document.querySelector('.field tr');
-const table = document.querySelector('tbody');
+const tbody = document.querySelector('tbody');
 const minElements = 2;
 const maxElements = 10;
 
 addRow.addEventListener('click', () => {
-  const count = table.childElementCount;
+  const count = tbody.childElementCount;
 
   if (count < maxElements) {
+    if (removeRow.hasAttribute('disabled')) {
+      removeRow.removeAttribute('disabled');
+    }
     tableRow.parentNode.append(createRow());
+  } else {
+    addRow.setAttribute('disabled', '');
   }
 });
 
 removeRow.addEventListener('click', () => {
-  const count = table.childElementCount;
+  const count = tbody.childElementCount;
 
   if (count > minElements) {
-    table.lastElementChild.remove();
+    if (addRow.hasAttribute('disabled')) {
+      addRow.removeAttribute('disabled');
+    }
+    tbody.lastElementChild.remove();
+  } else {
+    removeRow.setAttribute('disabled', '');
   }
 });
 
@@ -32,7 +42,12 @@ addColumn.addEventListener('click', () => {
     const count = element.cells.length;
 
     if (count < maxElements) {
+      if (removeColumn.hasAttribute('disabled')) {
+        removeColumn.removeAttribute('disabled');
+      }
       element.lastElementChild.after(createColumn());
+    } else {
+      addColumn.setAttribute('disabled', '');
     }
   });
 });
@@ -44,7 +59,12 @@ removeColumn.addEventListener('click', () => {
     const count = element.cells.length;
 
     if (count > minElements) {
+      if (addColumn.hasAttribute('disabled')) {
+        addColumn.removeAttribute('disabled');
+      }
       element.lastElementChild.remove();
+    } else {
+      removeColumn.setAttribute('disabled', '');
     }
   });
 });
